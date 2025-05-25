@@ -5,15 +5,7 @@ from selene import browser
 from selenium import webdriver
 
 
-def gen_ids(fixture_value):
-	return f"Case with incredible value = {fixture_value[:5]}.."
-
-
-def gen_data():
-	return [''.join([str(_i * random.randint(0, 15)) for _i in range(32)])]
-
-
-@pytest.fixture(scope="session", params=gen_data(), ids=gen_ids)
+@pytest.fixture(scope="session")
 def driver(request):
 	"""Create session browser"""
 	print("Browser create")
@@ -26,6 +18,11 @@ def driver(request):
 	driv = browser
 	driv.config.driver_options = options
 	driv.config.base_url = "https://google.com"
-	yield [driv, request.param]
-	print("Browser closing")
+	yield driv
+	print("\nBrowser closing")
 	driv.close()
+
+
+@pytest.fixture()
+def gen_data():
+	return ''.join([str(_i * random.randint(0, 15)) for _i in range(32)])

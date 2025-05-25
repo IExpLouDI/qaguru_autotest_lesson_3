@@ -1,12 +1,13 @@
-from selene import be, have
+from selene import have
 
 
-def test_page(driver):
-	driver[0].open('/ncr')
-	driver[0].element('textarea[aria-label]').set_value(f"{driver[1]}").press_enter()
-	assert driver[0].element('p[aria-level="3"]').should(have.text('did not match any documents.'))
+def test_page(driver, gen_data):
+	driver.open('/ncr')
+	driver.element('textarea[aria-label]').set_value(f"{gen_data}").press_enter()
+	assert driver.element('p[aria-level="3"]').should(have.text('did not match any documents.'))
 
 
 def test_google_search(driver):
-	driver[0].element('[name="q"]').clear().type('yashaka/selene').press_enter()
-	driver[0].element('a[href="https://github.com/yashaka"] h3').should(have.text('Iakiv Kramarenko yashaka'))
+	driver.open('/ncr')
+	driver.element('[name="q"]').clear().type('yashaka/selene').press_enter()
+	driver.element('a[href="https://github.com/yashaka"] h3').should(have.text('Iakiv Kramarenko yashaka'))
